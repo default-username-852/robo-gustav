@@ -12,7 +12,7 @@ ipc.invoke('filenames').then(result => {
 
         let toBuild = "<tr>";
         for (let filename of chunk) {
-            toBuild += `<td class="click">${filename.slice(0, -4)}</td>`;
+            toBuild += `<td class="click"><audio src="resources/audio/${filename}" preload="auto"></audio>${filename.slice(0, -4)}</td>`;
         }
         toBuild += "</tr>";
         table.append($(toBuild));
@@ -21,7 +21,7 @@ ipc.invoke('filenames').then(result => {
     sounds = result.map(e => e.slice(0, -4));
 
     $(".click").on("click", event => {
-        ipc.send("play", $(event.currentTarget).text());
+        $(event.currentTarget).children("audio")[0].play();
     });
 });
 
@@ -47,5 +47,5 @@ $(document).ready(() => {
 });
 
 function playRandomSound() {
-    ipc.send("play", sounds[Math.floor(Math.random() * sounds.length)]);
+    $(`audio[src="resources/audio/${sounds[Math.floor(Math.random() * sounds.length)]}.wav"]`)[0].play();
 }
