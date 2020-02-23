@@ -31,7 +31,22 @@ let auto = {
     timerId: undefined,
 };
 
-$(document).ready(() => {
+$(document).ready(async () => {
+    navigator.mediaDevices.enumerateDevices().then(devices => {
+        $("#deviceSelector")
+            .empty()
+            .append($(devices
+                .filter(device => device.kind === 'audiooutput')
+                .map(e => `<option value="${e.deviceId}">${e.label}</option>`)
+                .reduce((acc, e) => acc + e, "")))
+            .on("change", event => {
+                //console.log(event.currentTarget.value);
+                $(".click>audio").each((i, e) => {
+                    e.setSinkId(event.currentTarget.value);
+                });
+            });
+    });
+
     $("#auto").on("click", event => {
         if (auto.enabled) {
             $(event.currentTarget).css("background-color", "");
