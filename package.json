@@ -13,8 +13,6 @@
     "electron": "^8.0.1"
   },
   "dependencies": {
-    "jquery": "^3.4.1",
-    "node-wav": "0.0.2",
-    "speaker": "^0.5.1"
+    "jquery": "^3.4.1"
   }
 }
