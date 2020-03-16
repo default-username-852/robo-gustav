@@ -18,7 +18,7 @@ ipc.invoke('filenames').then(result => {
         table.append($(toBuild));
     }
 
-    sounds = result.map(e => e.slice(0, -4));
+    sounds = result;
 
     $(".click").on("click", event => {
         $(event.currentTarget).children("audio")[0].play();
@@ -31,7 +31,7 @@ let auto = {
     timerId: undefined,
 };
 
-$(document).ready(async () => {
+$(document).ready(() => {
     navigator.mediaDevices.enumerateDevices().then(devices => {
         $("#deviceSelector")
             .empty()
@@ -40,11 +40,18 @@ $(document).ready(async () => {
                 .map(e => `<option value="${e.deviceId}">${e.label}</option>`)
                 .reduce((acc, e) => acc + e, "")))
             .on("change", event => {
-                //console.log(event.currentTarget.value);
                 $(".click>audio").each((i, e) => {
                     e.setSinkId(event.currentTarget.value);
                 });
             });
+    });
+
+    $("#volume").on("input", event => {
+        let v = parseInt(event.currentTarget.value);
+        $("#volumeDisplay").text(`Volume: ${v}`);
+        $(".click>audio").each((i, e) => {
+            e.volume = v / 100;
+        });
     });
 
     $("#auto").on("click", event => {
@@ -62,5 +69,5 @@ $(document).ready(async () => {
 });
 
 function playRandomSound() {
-    $(`audio[src="resources/audio/${sounds[Math.floor(Math.random() * sounds.length)]}.wav"]`)[0].play();
+    $(`audio[src="resources/audio/${sounds[Math.floor(Math.random() * sounds.length)]}"]`)[0].play();
 }

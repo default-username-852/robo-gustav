@@ -19,7 +19,3 @@ app.whenReady().then(createWindow);
 ipc.handle('filenames', (async () => {
     return fs.readdirSync("resources/audio");
 }));
-
-ipc.on("play", (event, args) => {
-    console.log("playing " + args);
-});
